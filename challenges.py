@@ -9,7 +9,6 @@ stops = {"SL": "San Leandro", "COL": "Coliseum", "FR":  "Fruitvale", "LM": "Lake
             "DB": "Downtown Berkeley", "ASH": "Ashby", "WC": "Walnut Creek", "ORI": "Orinda",
               "LAF": "Lafayette", "PH": "Pleasant Hill", "MAC": "MacArthur", "PIT": "Pittsburg"}
 def berkeley_bound(grid: list[list[str]]) -> list[str]:
-    def berkeley_bound(grid: list[list[str]]) -> list[str]:
     results = []
     for i in grid:
         index = -1
@@ -26,41 +25,38 @@ def berkeley_bound(grid: list[list[str]]) -> list[str]:
 
 # Question 2
 def train_schedule(arrivals: dict) -> list[str]:
-    ''' Return a list of all the trains arriving, in order, 
-    represented by a list of strings “red,” “yellow,” “green,” “blue.”
-
-    >>> schedule = {“red” : [1], “yellow” : [2], “green” : [3], “blue” : [4]}
-    >>> train_schedule(schedule)
-    [“red”, “yellow”, “green”, “blue”]   
-    >>> schedule = {“red” : [2, 32], “yellow” : [10, 80], “green” : [22], “blue” : [45, 50, 90]}
-    >>> train_schedule(schedule)
-    [“red”, “yellow”, “green”, “red”, “blue”, “blue”, “yellow”, “blue”]
-    >>> schedule = {“red” : [109], “yellow” : [190], “green” : [80], “blue” : [20]}
-    >>> train_schedule(schedule)
-    [“blue”, “green”, “red”, “yellow”]
-    >>> schedule = {“red” : [], “yellow”: [20, 200], “green” : [], “blue” : [30]}
-    >>> train_schedule(schedule)
-    [“yellow”, “blue”, “yellow”]
-
-    '''
-    # Write Your Code Here #
-
+    solutions = []
+    while arrivals["red"] or arrivals["yellow"] or arrivals["green"] or arrivals["blue"]:
+        key = "red"
+        if min(arrivals["yellow"], default=2147483647) < min(arrivals[key], default=2147483647):
+            key = "yellow"
+        if min(arrivals["green"], default=2147483647) < min(arrivals[key], default=2147483647):
+            key = "green"
+        if min(arrivals["blue"], default=2147483647) < min(arrivals[key], default=2147483647):
+            key = "blue"
+        solutions.append(key)
+        arrivals[key].pop(0)
+        
+    return solutions
 
 # Question 3
 def rail_yard(width: int) -> list[str]:
-    """
-    >>> rail_yard(1)
-   ['r'] 
-   >>> rail_yard(2)
-   ['y','rr']
-   >>> rail_yard(3)
-   ['rrr', 'ry', 'yr', 'g']
-   >>> rail_yard(4)
-   ['rrrr','rry','ryr','gr','yrr','rg','b']
+    solutions = []
+    rail_yard_helper(solutions, "", width)
 
-    """
-    # Write Your Code Here #
+    return solutions
 
+def rail_yard_helper(arr: list[str], word: str, spots_left: int):
+    if spots_left >= 1:
+        rail_yard_helper(arr, word + "r", spots_left - 1)
+    if spots_left >= 2:
+        rail_yard_helper(arr, word + "y", spots_left - 2)
+    if spots_left >= 3:
+        rail_yard_helper(arr, word + "g", spots_left - 3)
+    if spots_left >= 4:
+        rail_yard_helper(arr, word + "b", spots_left - 4)
+    if spots_left == 0:
+        arr.append(word)   
 
 # Question 4
 def paths(start: str, destination: str, startingLine: str, PARTLines: list[list[str]]) -> list[list[str]]:
