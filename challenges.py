@@ -113,10 +113,13 @@ def race_against_bay(n: int, times: list[int]) -> int:
     return mini[0]
 
 def race_against_bay_helper(a: list[int], b: list[int], left: list[int], mini: list[int]):
+    solution = max(sum(a), sum(b))
     if not left:
-        solution = max(sum(a), sum(b))
         if solution < mini[0]:
             mini[0] = solution
+        return
+    if solution > mini[0]:
+        return
     else:
         race_against_bay_helper(a + [left[-1]], b, left[:-1], mini)
         race_against_bay_helper(a, b + [left[-1]], left[:-1], mini)
