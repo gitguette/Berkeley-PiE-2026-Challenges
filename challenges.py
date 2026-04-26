@@ -1,13 +1,4 @@
-"""
-Pioneers in Engineering Spring 2026 Take-Home Coding Challenges Starter Code
-"""
-
-
 # Question 1
-stops = {"SL": "San Leandro", "COL": "Coliseum", "FR":  "Fruitvale", "LM": "Lake Merrit",
-          "OAK": "Oakland", "RICH": "Richmond", "EC": "El Cerrito", "NB": "North Berkeley",
-            "DB": "Downtown Berkeley", "ASH": "Ashby", "WC": "Walnut Creek", "ORI": "Orinda",
-              "LAF": "Lafayette", "PH": "Pleasant Hill", "MAC": "MacArthur", "PIT": "Pittsburg"}
 def berkeley_bound(grid: list[list[str]]) -> list[str]:
     results = []
     for i in grid:
@@ -115,15 +106,17 @@ def part_codes_helper(solutions: list[str], digitsleft: int, solution: str):
     
 # Question 6
 def race_against_bay(n: int, times: list[int]) -> int:
-    """
-    >>> race_against_bay(2, [10, 8])
-    10
-    >>> race_against_bay(0, [])    
-    0
-    >>> race_against_bay(3, [8, 9, 12])
-    17
-    >>> race_against_bay(5, [10, 13, 9, 10, 11])
-    29
+    mini = [2147483647]
+    if not list:
+        return 0
+    race_against_bay_helper([], [], times, mini)
+    return mini[0]
 
-    """
-    # Write Your Code Here #
+def race_against_bay_helper(a: list[int], b: list[int], left: list[int], mini: list[int]):
+    if not left:
+        solution = max(sum(a), sum(b))
+        if solution < mini[0]:
+            mini[0] = solution
+    else:
+        race_against_bay_helper(a + [left[-1]], b, left[:-1], mini)
+        race_against_bay_helper(a, b + [left[-1]], left[:-1], mini)
