@@ -96,21 +96,23 @@ def paths(start: str, destination: str, startingLine: str, PARTLines: list[list[
 
 # Question 5
 def part_codes(n: int, k: int) -> list[str]:
-    """Return all possible bark codes
+    solutions = []
+    for i in range(1,9):
+        part_codes_helper(solutions, n - 1, str(i))
+    solutions = solutions[0: k]
+    return solutions
+
+def part_codes_helper(solutions: list[str], digitsleft: int, solution: str):
+    if digitsleft == 0:
+        solutions.append(solution)
+        return
+    num1 = int(solution[-1]) - 2
+    num2 = int(solution[-1]) + 2
+    if num1 >= 0:
+        part_codes_helper(solutions, digitsleft - 1, solution + str(num1))
+    if num2 <= 9:
+        part_codes_helper(solutions, digitsleft - 1, solution + str(num2))
     
-    >>> part_codes(1, 1)
-    ['1']
-
-    >>> part_codes(1, 5)
-    ['1', '2', '3', '4', '5']
-
-    >>> part_codes(2, 10)
-    ['13', '20', '24', '31', '35', '42', '46', '53', '57', '64']
-
-    """
-    # Write Your Code Here #
-
-
 # Question 6
 def race_against_bay(n: int, times: list[int]) -> int:
     """
